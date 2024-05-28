@@ -6,4 +6,14 @@
 
 # Install
 
+## Manual
+
+You can download the latest .vsix file from the [Releases page](https://github.com/itaober/second-salary/releases).
+
+## VSCode extensions marketplace
+
+TODO...
+
+# How to use
+
 TODO...
