@@ -1,7 +1,7 @@
 {
   "name": "second-salary",
-  "displayName": "Selected Line Numbers",
-  "description": "Shows the number of selected lines in the status bar",
+  "displayName": "Second Salary",
+  "description": "💰 A VSCode extension that track your salary by the second directly in the VSCode statusbar.",
   "version": "0.0.1",
   "publisher": "itaober",
   "private": true,
