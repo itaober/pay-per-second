@@ -1,17 +1,17 @@
 import * as vscode from "vscode";
 import {
-  ISecondSalaryOptions,
+  IPayPerSecondOptions,
   SalaryType,
   WorkDays,
-  getCurrentTimeSecondSalary,
-  getSecondSalary,
+  getCurrentTimeIncome,
+  getSecondsSalary,
 } from "./utils";
 
 let myStatusBarItem: vscode.StatusBarItem;
 let interval: NodeJS.Timeout;
 
-const SECOND_SALARY_COMMAND_ID = "itaober.secondSalary";
-const SECOND_SALARY_SETTING_ID = "secondSalary";
+const COMMAND_ID = "itaober.payPerSecond";
+const SETTING_ID = "payPerSecond";
 
 export function activate({ subscriptions }: vscode.ExtensionContext) {
   // Create a new status bar item
@@ -19,16 +19,16 @@ export function activate({ subscriptions }: vscode.ExtensionContext) {
     vscode.StatusBarAlignment.Right,
     100
   );
-  myStatusBarItem.command = SECOND_SALARY_COMMAND_ID;
+  myStatusBarItem.command = COMMAND_ID;
   subscriptions.push(myStatusBarItem);
 
   const registerOpenSettingsCommands = vscode.commands.registerCommand(
-    SECOND_SALARY_COMMAND_ID,
+    COMMAND_ID,
     () => {
       // Open the settings panel
       vscode.commands.executeCommand(
         "workbench.action.openSettings",
-        SECOND_SALARY_SETTING_ID
+        SETTING_ID
       );
     }
   );
@@ -38,18 +38,18 @@ export function activate({ subscriptions }: vscode.ExtensionContext) {
   updateStatusBarItem();
 
   vscode.workspace.onDidChangeConfiguration((event) => {
-    if (event.affectsConfiguration(SECOND_SALARY_SETTING_ID)) {
+    if (event.affectsConfiguration(SETTING_ID)) {
       updateStatusBarItem();
     }
   });
 }
 
 function updateStatusBarItem(): void {
-  const config = vscode.workspace.getConfiguration(SECOND_SALARY_SETTING_ID);
-  const options: ISecondSalaryOptions = {
+  const config = vscode.workspace.getConfiguration(SETTING_ID);
+  const options: IPayPerSecondOptions = {
     salary: config.get<number>("1_salary", 0),
     salaryType: config.get<SalaryType>("2_salaryType", "Monthly"),
-    salarySymbol: config.get<string>("3_salarySymbol", "💰"),
+    symbol: config.get<string>("3_symbol", "💰"),
     workDays: config.get<WorkDays[]>("4_workDays", [
       "Monday",
       "Tuesday",
@@ -61,14 +61,14 @@ function updateStatusBarItem(): void {
     endTime: config.get<string>("6_endTime", "18:00"),
   };
 
-  const secondSalary = getSecondSalary(options);
+  const secondSalary = getSecondsSalary(options);
 
   if (interval) {
     clearInterval(interval);
   }
 
   interval = setInterval(() => {
-    myStatusBarItem.text = getCurrentTimeSecondSalary(options, secondSalary);
+    myStatusBarItem.text = getCurrentTimeIncome(options, secondSalary);
     myStatusBarItem.show();
   }, 1000);
 }

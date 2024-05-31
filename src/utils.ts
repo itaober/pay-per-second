@@ -19,10 +19,10 @@ const workDaysMap = {
 export type SalaryType = keyof typeof salaryTypeMap;
 export type WorkDays = keyof typeof workDaysMap;
 
-export interface ISecondSalaryOptions {
+export interface IPayPerSecondOptions {
   salary: number;
   salaryType: SalaryType;
-  salarySymbol: string;
+  symbol: string;
   workDays: WorkDays[];
   startTime: string;
   endTime: string;
@@ -52,7 +52,7 @@ const getCurrentMonthWorkDays = (workDays: WorkDays[]): number => {
   return currentMonthWorkDays;
 };
 
-export const getSecondSalary = (options: Required<ISecondSalaryOptions>) => {
+export const getSecondsSalary = (options: Required<IPayPerSecondOptions>) => {
   const { salary, salaryType, workDays, startTime, endTime } = options;
 
   const start = dayjs(`1999-03-24 ${startTime}`, "YYYY-MM-DD HH:mm");
@@ -81,21 +81,19 @@ export const getSecondSalary = (options: Required<ISecondSalaryOptions>) => {
   }
 };
 
-export const getCurrentTimeSecondSalary = (
-  options: ISecondSalaryOptions,
+export const getCurrentTimeIncome = (
+  options: IPayPerSecondOptions,
   secondSalary: number
 ) => {
   const {
     salary,
-    salaryType = "Monthly",
-    salarySymbol = "💰",
-    workDays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+    symbol = "💰",
     startTime = "9:00",
     endTime = "18:00",
   } = options;
 
   if (!salary) {
-    return `${salarySymbol}0.0000`;
+    return `${symbol}0.0000`;
   }
 
   const now = dayjs();
@@ -107,14 +105,14 @@ export const getCurrentTimeSecondSalary = (
   const workEndTime = now.hour(endHour).minute(endMinute).second(0);
 
   if (now.isBefore(workStartTime) || now.isSame(workStartTime)) {
-    return `${salarySymbol}0.0000`;
+    return `${symbol}0.0000`;
   }
   if (now.isAfter(workEndTime) || now.isSame(workEndTime)) {
     const allDayWorkedSeconds = workEndTime.diff(workStartTime, "second");
-    return `${salarySymbol}${(secondSalary * allDayWorkedSeconds).toFixed(4)}`;
+    return `${symbol}${(secondSalary * allDayWorkedSeconds).toFixed(4)}`;
   }
 
   const workedSeconds = now.diff(workStartTime, "second");
 
-  return `${salarySymbol}${(secondSalary * workedSeconds).toFixed(4)}`;
+  return `${symbol}${(secondSalary * workedSeconds).toFixed(4)}`;
 };

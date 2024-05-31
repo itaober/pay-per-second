@@ -1,17 +1,17 @@
 {
-  "name": "second-salary",
-  "displayName": "Second Salary",
-  "description": "💰 A VSCode extension that track your salary by the second directly in the VSCode statusbar.",
+  "name": "pay-per-second",
+  "displayName": "Pay Per Second",
+  "description": "💰 A VSCode extension that tracks your pay per second, making your earnings dance in your statusbar.",
   "version": "0.0.1",
   "publisher": "itaober",
   "private": true,
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/itaober/second-salary"
+    "url": "https://github.com/itaober/pay-per-second"
   },
   "bugs": {
-    "url": "https://github.com/itaober/second-salary/issues"
+    "url": "https://github.com/itaober/pay-per-second/issues"
   },
   "engines": {
     "vscode": "^1.73.0"
@@ -32,20 +32,20 @@
   "contributes": {
     "commands": [
       {
-        "command": "itaober.showSecondSalary",
-        "title": "Show your second salary!"
+        "command": "itaober.payPerSecond",
+        "title": "Tracks your pay per second!"
       }
     ],
     "configuration": {
       "type": "object",
-      "title": "Second Salary Settings",
+      "title": "Pay Per Second Settings",
       "properties": {
-        "secondSalary.1_salary": {
+        "payPerSecond.1_salary": {
           "type": "number",
           "default": 0,
           "description": "The monthly/weekly/daily salary, depending on salaryType."
         },
-        "secondSalary.2_salaryType": {
+        "payPerSecond.2_salaryType": {
           "type": "string",
           "enum": [
             "Monthly",
@@ -55,12 +55,12 @@
           "default": "Monthly",
           "description": "The type of salary."
         },
-        "secondSalary.3_salarySymbol": {
+        "payPerSecond.3_symbol": {
           "type": "string",
           "default": "💰",
           "description": "The prefix symbol for salary display"
         },
-        "secondSalary.4_workDays": {
+        "payPerSecond.4_workDays": {
           "type": "array",
           "default": [
             "Monday",
@@ -83,12 +83,12 @@
             ]
           }
         },
-        "secondSalary.5_startTime": {
+        "payPerSecond.5_startTime": {
           "type": "string",
           "default": "09:00",
           "description": "Start time of the work day"
         },
-        "secondSalary.6_endTime": {
+        "payPerSecond.6_endTime": {
           "type": "string",
           "default": "18:00",
           "description": "End time of the work day"
