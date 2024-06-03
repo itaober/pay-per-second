@@ -1,4 +1,5 @@
-import dayjs = require("dayjs");
+import * as vscode from "vscode";
+import * as dayjs from "dayjs";
 
 const salaryTypeMap = {
   Monthly: "Monthly",
@@ -27,6 +28,24 @@ export interface IPayPerSecondOptions {
   startTime: string;
   endTime: string;
 }
+
+const TIME_FORMAT_RAGEX = /^([01]\d|2[0-3]):([0-5]\d)$/;
+
+export const verifyStartAndEndTime = (startTime: string, endTime: string) => {
+  if (!TIME_FORMAT_RAGEX.test(startTime)) {
+    vscode.window.showErrorMessage(
+      "Invalid start-time format, Please use HH:MM (24-hour clock)."
+    );
+    return false;
+  }
+  if (!TIME_FORMAT_RAGEX.test(endTime)) {
+    vscode.window.showErrorMessage(
+      "Invalid end-time format, Please use HH:MM (24-hour clock)."
+    );
+    return false;
+  }
+  return true;
+};
 
 const hoursToSeconds = (hours: number): number => hours * 60 * 60;
 

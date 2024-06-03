@@ -5,6 +5,7 @@ import {
   WorkDays,
   getCurrentTimeIncome,
   getSecondsSalary,
+  verifyStartAndEndTime,
 } from "./utils";
 
 let myStatusBarItem: vscode.StatusBarItem;
@@ -44,7 +45,7 @@ export function activate({ subscriptions }: vscode.ExtensionContext) {
   });
 }
 
-function updateStatusBarItem(): void {
+function getOptionsBySettings(): IPayPerSecondOptions {
   const config = vscode.workspace.getConfiguration(SETTING_ID);
   const options: IPayPerSecondOptions = {
     salary: config.get<number>("1_salary", 0),
@@ -60,6 +61,17 @@ function updateStatusBarItem(): void {
     startTime: config.get<string>("5_startTime", "09:00"),
     endTime: config.get<string>("6_endTime", "18:00"),
   };
+
+  return options;
+}
+
+function updateStatusBarItem(): void {
+  const options = getOptionsBySettings();
+
+  const isValidTime = verifyStartAndEndTime(options.startTime, options.endTime);
+  if (!isValidTime) {
+    options.salary = 0;
+  }
 
   const secondSalary = getSecondsSalary(options);
 

@@ -2,7 +2,7 @@
   "name": "pay-per-second",
   "displayName": "Pay Per Second",
   "description": "💰 A VSCode extension that tracks your pay per second, making your earnings dance in your statusbar.",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "publisher": "itaober",
   "private": true,
   "license": "MIT",
@@ -58,7 +58,7 @@
         "payPerSecond.3_symbol": {
           "type": "string",
           "default": "💰",
-          "description": "The prefix symbol for salary display"
+          "description": "The prefix symbol for salary display."
         },
         "payPerSecond.4_workDays": {
           "type": "array",
@@ -69,7 +69,7 @@
             "Thursday",
             "Friday"
           ],
-          "description": "The work days of the week",
+          "description": "The work days of the week.",
           "items": {
             "type": "string",
             "enum": [
@@ -86,12 +86,12 @@
         "payPerSecond.5_startTime": {
           "type": "string",
           "default": "09:00",
-          "description": "Start time of the work day"
+          "description": "Start time of the work day in HH:MM format (24-hour clock)."
         },
         "payPerSecond.6_endTime": {
           "type": "string",
           "default": "18:00",
-          "description": "End time of the work day"
+          "description": "End time of the work day in HH:MM format (24-hour clock)."
         }
       }
     }
