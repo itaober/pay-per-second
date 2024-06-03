@@ -32,8 +32,15 @@
   "contributes": {
     "commands": [
       {
-        "command": "itaober.payPerSecond",
+        "command": "itaober.payPerSecond.openSettings",
         "title": "Tracks your pay per second!"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "itaober.payPerSecond.toggleDisplay",
+        "key": "ctrl+shift+/",
+        "when": "true"
       }
     ],
     "configuration": {

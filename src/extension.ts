@@ -10,9 +10,14 @@ import {
 
 let myStatusBarItem: vscode.StatusBarItem;
 let interval: NodeJS.Timeout;
+let isDisplayed = false;
 
-const COMMAND_ID = "itaober.payPerSecond";
 const SETTING_ID = "payPerSecond";
+
+const commandIds = {
+  OPEN_SETTINGS: "itaober.payPerSecond.openSettings",
+  TOGGLE_DISPLAY: "itaober.payPerSecond.toggleDisplay",
+};
 
 export function activate({ subscriptions }: vscode.ExtensionContext) {
   // Create a new status bar item
@@ -20,11 +25,10 @@ export function activate({ subscriptions }: vscode.ExtensionContext) {
     vscode.StatusBarAlignment.Right,
     100
   );
-  myStatusBarItem.command = COMMAND_ID;
-  subscriptions.push(myStatusBarItem);
+  myStatusBarItem.command = commandIds.OPEN_SETTINGS;
 
-  const registerOpenSettingsCommands = vscode.commands.registerCommand(
-    COMMAND_ID,
+  const registerOpenSettingsCommand = vscode.commands.registerCommand(
+    commandIds.OPEN_SETTINGS,
     () => {
       // Open the settings panel
       vscode.commands.executeCommand(
@@ -34,7 +38,26 @@ export function activate({ subscriptions }: vscode.ExtensionContext) {
     }
   );
 
-  subscriptions.push(registerOpenSettingsCommands);
+  const registerToggleDisplayCommand = vscode.commands.registerCommand(
+    commandIds.TOGGLE_DISPLAY,
+    () => {
+      if (isDisplayed) {
+        if (interval) {
+          clearInterval(interval);
+        }
+        myStatusBarItem.hide();
+        isDisplayed = false;
+        return;
+      }
+      updateStatusBarItem();
+    }
+  );
+
+  subscriptions.push(
+    myStatusBarItem,
+    registerOpenSettingsCommand,
+    registerToggleDisplayCommand
+  );
 
   updateStatusBarItem();
 
@@ -82,5 +105,6 @@ function updateStatusBarItem(): void {
   interval = setInterval(() => {
     myStatusBarItem.text = getCurrentTimeIncome(options, secondSalary);
     myStatusBarItem.show();
+    isDisplayed = true;
   }, 1000);
 }
